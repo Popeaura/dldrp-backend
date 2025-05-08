@@ -1,16 +1,20 @@
-import Helia from 'helia';
+import { create } from 'ipfs-core';
 
 async function main() {
-  // Initialize Helia
-  const helia = await create()
+  // Initialize IPFS
+  const ipfs = await create();
 
   // Add a file to IPFS
-  const { cid } = await helia.add('Hello, IPFS with Helia!')
-  console.log('File added with CID:', cid.toString())
+  const { cid } = await ipfs.add('Hello, IPFS with js-ipfs!');
+  console.log('File added with CID:', cid.toString());
 
   // Retrieve the file from IPFS
-  const content = await helia.cat(cid)
-  console.log('Content from IPFS:', content.toString())
+  let content = '';
+  for await (const chunk of ipfs.cat(cid)) {
+    content += chunk.toString();
+  }
+
+  console.log('Content from IPFS:', content);
 }
 
-main().catch(console.error)
+main().catch(console.error);
