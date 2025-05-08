@@ -1,4 +1,4 @@
-import { create } from 'helia'
+import Helia from 'helia';
 
 async function main() {
   // Initialize Helia
